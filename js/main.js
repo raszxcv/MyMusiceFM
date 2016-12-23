@@ -101,7 +101,7 @@ Fm.prototype={
             }
             console.log(styleM);
             $.ajax({
-                url:'https://api.jirengu.com/fm/getSong.php',
+                url:'http://api.jirengu.com/fm/getSong.php',
                 type:'GET',
                 data:{
                     channel:styleM
@@ -132,7 +132,7 @@ Fm.prototype={
     getMusiceStyle:function(){
         var me =this;
         $.ajax({
-            url:'https://api.jirengu.com/fm/getChannels.php',
+            url:'http://api.jirengu.com/fm/getChannels.php',
             type:'get',
             data:'json',
             success:function(data){
