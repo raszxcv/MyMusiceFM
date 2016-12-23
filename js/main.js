@@ -134,7 +134,6 @@ Fm.prototype={
         $.ajax({
             url:'http://api.jirengu.com/fm/getChannels.php',
             type:'get',
-            data:'json',
             success:function(data){
                 var newdata=JSON.parse(data);
                 newli(newdata.channels);
