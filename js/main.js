@@ -18,8 +18,13 @@
      this.before=$('.befortime');//当前音乐时间
      this.time=$('.time');//音乐总时长
      this.clock=true;//设置音乐锁
+     this.content=$('.animat-cnt');//封面旋转
+     this.wordsong=$('.wordsong');//歌词容器
+     this.edge=$('.edge');
+
      this.bind();//绑定按钮事件
      this.getMusiceStyle();
+
      this.getMusice(this.styleM);//获取随机音乐函数
 
 }
@@ -65,32 +70,51 @@ Fm.prototype={
 
         });
         //音量控制
-        me.volume.on('mouseup',function(){
-            me.setVolume();
-        });
+        // me.volume.on('mouseup',function(){
+        //     me.setVolume();
+        // });
         //音乐进度条滑块控制
         me.slider.on('mousedown',function(e){
-            var bleft= e.pageX;
-            var oldx=parseInt(me.slider.css('left'));
+            var oldx=parseInt(me.slider.css('left')),
+                oldleft=e.pageX;
+            me.pause.click();
             $(document).on('mousemove',function(e){
-                var newleft=e.pageX;
-                var newx=oldx+(newleft-bleft)
-                me.slider.css('left',newx)
+                var newx=e.pageX-oldleft+oldx;
+                me.slider.css('left',newx);
+
                 if(newx<0){
                     me.slider.css('left',0)
                 }
                 if(newx>200){
                     me.slider.css('left',200)
                 }
-            });
-            $(document).on('mouseup',function(){
-                $(document).off('mouseup');
-                $(document).off('mousemove');
-                me.audio[0].currentTime=me.audio[0].duration*parseInt(me.slider.css('left'))/200
-
+                $(document).on('mouseup',function(){
+                    $(document).off('mouseup');
+                    $(document).off('mousemove');
+                    me.play.click();
+                    me.audio[0].currentTime=me.audio[0].duration*parseInt(me.slider.css('left'))/200;
+                })
             })
-        })
-    },
+        });
+        //唱片旋转动画控制
+        me.audio.on('play',function(){
+            me.content.addClass('animat');
+        });
+        me.audio.on('pause',function(){
+            me.content.removeClass('animat');
+        });
+        //封面和歌词切换
+        me.songCover.on('click',function(){
+            me.edge.css('opacity',0);
+            me.wordsong.addClass('show');
+        });
+        me.wordsong.on('click',function(){
+            me.wordsong.removeClass('show');
+            me.edge.css('opacity',1)
+
+        });
+        
+     },
     //获取随机音乐函数
     getMusice:function(style){
         var me =this;
@@ -114,13 +138,15 @@ Fm.prototype={
                         sid=newdata.song[0].sid,
                         title=newdata.song[0].title;
 
+
                     me.audio.attr('src',url);
                     me.songCover.attr('src',picture);
                     me.song.text(title);
                     me.singer.text(artist);
+                    me.getWordsSong(sid);
                     me.audio[0].play();
-                    me.playbackProgress();
-                    console.log(newdata.song[0].url)
+                     me.playbackProgress(true);
+                    console.log(newdata.song[0].url);
                     me.clock=true;
                 }
 
@@ -148,28 +174,73 @@ Fm.prototype={
             console.log(newLi)
         }
     },
-    //设置音量
-    setVolume:function(){
-        this.audio[0].volume=this.volume[0].value;
-    },
     playbackProgress:function(){
-        var me =this;
-        var interval=setInterval(function(){
-            var widthline = Math.round(me.audio[0].currentTime)/Math.round(me.audio[0].duration) * 100;
-            me.slider.css({
-                left:widthline+'%'
-            });
-            me.time.text(Math.floor(me.audio[0].duration/60)+':'+Math.floor(me.audio[0].duration%60)||'00:00');
-            me.before.text(Math.floor(me.audio[0].currentTime/60)+':'+Math.floor(me.audio[0].currentTime%60)||'00:00');
-            if(me.time.text()===me.before.text()){
-                me.getMusice();
-            }
-        },1000)
-    },
+            var me =this;
+            var setprogress;
+                me.audio.on('play',function(){
+                     setprogress=setInterval(function(){
+                        var widthline = Math.round(me.audio[0].currentTime)/Math.round(me.audio[0].duration) * 100;
+                        me.slider.css({
+                            left:widthline+'%'
+                        });
+                        me.time.text(Math.floor(me.audio[0].duration/60)+':'+Math.floor(me.audio[0].duration%60)||'00:00');
+                        me.before.text(Math.floor(me.audio[0].currentTime/60)+':'+Math.floor(me.audio[0].currentTime%60)||'00:00');
 
+                        if(me.time.text()===me.before.text()){
+                            me.getMusice();
+                        }
+                    },1000);
+                });
+            me.audio.on('pause',function(){
+                clearInterval(setprogress);
+            })
+    },
+    //获取歌词
+    getWordsSong:function(sidstr) {
+        var me = this;
+        me.wordsong.html('');
+        $.get('http://api.jirengu.com/fm/getLyric.php', {
+                sid: sidstr
+            })
+            .done(function (sidstr) {
+
+                var lyric = parseLyric(JSON.parse(sidstr).lyric);
+                loadLyric(lyric);
+                setSyncLyric();
+            });
+        function parseLyric(lyric) {
+            var lines = lyric.split('\n'),
+                pattern = /\[\d{2}:\d{2}.\d{2}\]/g,
+                result = [];
+            for(var i=0;i<lines.length;i++){
+                if(!pattern.test(lines[i])){
+                    continue
+                }
+                result.push([lines[i].match(pattern),lines[i].replace(/\[\d{2}:\d{2}.\d{2}\](?=\w)/,'')]);
+            }
+            return result;
+        }
+        function loadLyric(lrc){
+            for(var i=0;i<lrc.length;i++){
+                if(!/\[\d{2}:\d{2}.\d{2}\]/g.test(lrc[i][1])){
+
+                    var time=parseInt(lrc[i][0].join('')[1])+parseInt(lrc[i][0].join('')[2])*60+parseInt(lrc[i][0].join('')[4]+lrc[i][0].join('')[5])+parseInt(lrc[i][0].join('')[7]+lrc[i][0].join('')[8])/100
+                    me.wordsong.append('<p'+' name="'+time+'">'+lrc[i][1]+'</p>');
+                }
+            }
+        }
+        function setSyncLyric(){
+            var el=$('.wordsong p');
+            me.audio.on('timeupdate',function(){
+                el.each(function(i,v){
+                    if(me.audio[0].currentTime>parseInt($(this).attr('name'))){
+                        $(this).css('color','red')
+                    }
+                })
+            })
+        }
+    }
 };
  var a=new Fm();
-function ab(){
 
-}
 
