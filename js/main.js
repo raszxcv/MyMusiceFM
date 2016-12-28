@@ -19,7 +19,8 @@
      this.time=$('.time');//音乐总时长
      this.clock=true;//设置音乐锁
      this.content=$('.animat-cnt');//封面旋转
-     this.wordsong=$('.wordsong');//歌词容器
+     this.wordsong=$('.wordsong ul');//歌词容器
+     this.lyric=$('.wordsong');
      this.edge=$('.edge');
 
      this.bind();//绑定按钮事件
@@ -106,10 +107,10 @@ Fm.prototype={
         //封面和歌词切换
         me.songCover.on('click',function(){
             me.edge.css('opacity',0);
-            me.wordsong.addClass('show');
+            me.lyric.addClass('show');
         });
         me.wordsong.on('click',function(){
-            me.wordsong.removeClass('show');
+            me.lyric.removeClass('show');
             me.edge.css('opacity',1)
 
         });
@@ -225,16 +226,20 @@ Fm.prototype={
                 if(!/\[\d{2}:\d{2}.\d{2}\]/g.test(lrc[i][1])){
 
                     var time=parseInt(lrc[i][0].join('')[1])+parseInt(lrc[i][0].join('')[2])*60+parseInt(lrc[i][0].join('')[4]+lrc[i][0].join('')[5])+parseInt(lrc[i][0].join('')[7]+lrc[i][0].join('')[8])/100
-                    me.wordsong.append('<p'+' name="'+time+'">'+lrc[i][1]+'</p>');
+                    me.wordsong.append('<li'+' name="'+time+'">'+lrc[i][1]+'</li>');
                 }
             }
         }
         function setSyncLyric(){
-            var el=$('.wordsong p');
+            var el=$('.wordsong li');
+                ul=$('.wordsong ul');
             me.audio.on('timeupdate',function(){
                 el.each(function(i,v){
                     if(me.audio[0].currentTime>parseInt($(this).attr('name'))){
-                        $(this).css('color','red')
+
+                        el.eq(i-1).removeClass('beforelyric');
+                         el.eq(i).addClass('beforelyric');
+
                     }
                 })
             })
