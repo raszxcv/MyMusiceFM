@@ -10,7 +10,7 @@ function Vol(){
     this.volslip.addClass('hide');
     this.clock=false;//音量键状态值
     this.bind();
-    this.setVolme(50);
+    this.setVolme(0.5);
     
 }
 
@@ -30,7 +30,8 @@ Vol.prototype={
                 if(newx<0){
                     me.volslider.css('left',0);
                 }
-                me.setVolme(parseInt(me.volslider.css('left')));
+                me.setVolme(parseInt(me.volslider.css('left'))/100);
+
                 $(document).on('mouseup',function(){
                     $(document).off('mouseup');
                     $(document).off('mousemove');
@@ -49,14 +50,16 @@ Vol.prototype={
                     me.clock=false;
                 },5000)
             }
-
-
-
+        });
+        me.volslip.on('click',function(e){
+            var newvol=(e.pageX-$(this).offset().left)/100;
+            me.setVolme(newvol);
+            me.volslider.css('left',newvol*100);
 
         })
     },
     setVolme:function(vol){
-        var volme=vol/100;
+        var volme=vol;
         this.audio[0].volume=volme;
     }
 };

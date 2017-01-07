@@ -15,11 +15,14 @@
 
     <div id="fm">
         <audio src="不该.mp3"></audio>
+        <div class="musiceicon"><img src="icon/音乐圈.svg" alt=""><a href="#" class="zhanwei"></a></div>
+
         <div id="main">
             <!--顶部缩小和抬头和选择风格区-->
             <div id="header">
                 <div class="reduce">
-                    <img src="icon/缩小.svg" alt="">
+                    <img class='pointer' src="icon/缩小%20(2).svg" alt="">
+
                 </div>
                 <!--歌手和歌名-->
                 <div class="musiceinfo">
@@ -27,17 +30,19 @@
                     <p class="singer lenght"></p>
                 </div>
                 <!--歌曲风格选择-->
-                <div class="style">
-                    <img src="icon/音乐DNA.svg" alt="">
+                <div class="style ">
+                    <img class='pointer' src="icon/音乐DNA%20(1).svg" alt="">
                     <ul class="stylecnt">
                     </ul>
                 </div>
             </div>
             <div class="headerbar"></div>
+
             <!--播放器中间内容区-->
             <div id="content">
+                <img class='needle' src="icon/needle.png" alt="">
                 <div class="edge">
-                    <div class="animat-cnt">
+                    <div class="animat-cnt animat">
                         <div class="rubber">
                             <div class="songcover">
                                 <img src="" alt="">
@@ -45,8 +50,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="wordsong">
-
+                <div class="wordsong pointer">
+                    <div class="lyric-ct"></div>
                 </div>
 
 
@@ -54,19 +59,25 @@
             </div>
             <!--播放器控件区-->
             <div id="contro">
-
                 <div class="vol">
-                        <img class="volme" src="icon/音量.svg" alt="">
+                        <img class="volme pointer" src="icon/音量%20(1).svg" alt="">
                         <div class="volslip">
-                             <div class="volslider"></div>
+                             <div class="volslider pointer"></div>
                 </div>
                     <div class="skin">
-                        <img src="icon/换肤.svg" alt="">
+                        <img class='pointer' src="icon/换肤%20(1).svg" alt="">
+                        <ul class="skinstyle">
+                            <li class="skinblack">黑的一批</li>
+                            <li class="skinred">红的一批</li>
+                            <li class="skingreen">绿的一批</li>
+                            <li class="skinyellow">黄的一批</li>
+                            <li class="skindefault">默认的一批</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="progress">
                     <span class="befortime">00:00</span>
-                    <div class="slider"></div>
+                    <div class="slider pointer"></div>
                     <span class="time">00:00</span>
                 </div>
 
@@ -79,13 +90,14 @@
                         <!--</div>-->
                     <!--</li>-->
 
-                    <li class="pre"><img src="icon/上一曲.svg" alt=""></li>
-                    <li class="play"><img src="icon/播放.svg" alt=""></li>
-                    <li class="pause"><img src="icon/暂停.svg" alt=""></li>
-                    <li class="next"><img src="icon/下一曲.svg" alt=""></li>
+                    <li class="pre "><img class='pointer' src="icon/下一曲%20(1).svg" alt=""></li>
+                    <li class="play "><img class='pointer' src="icon/播放%20(4).svg" alt=""></li>
+                    <li class="pause "><img class='pointer' src="icon/暂停%20(9).svg" alt=""></li>
+                    <li class="next "><img class='pointer' src="icon/下一曲%20(2).svg" alt=""></li>
                 </ul>
             </div>
         </div>
+
     </div>
 <script src="js/jquery.js"></script>
 <script src="js/main.js"></script>

@@ -7,38 +7,82 @@
 li{
     list-style: none;
 }
+#fm{
+    position:absolute;
+    left:150px;
+    top:150px;
+}
 #main{
-    position:relative;
-    margin-left:200px;
+    position:absolute;
+    /*margin-left:200px;*/
+    /*display: none;*/
+    /*transition:0.5s;*/
     width: 300px;
     height: 500px;
-    /*background: linear-gradient(90deg,lightsteelblue, rgb(118,119,120));*/
-    background: rgb(128,128,126);
+    background: linear-gradient(45deg,black, rgb(138,100,125));
+
+
+    /*background: rgb(128,128,126);*/
     font-family:'微软雅黑';
+}
+.musiceicon{
+    position: absolute;
+    top: -20px;
+    left:-35px;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    animation:revole 5s infinite linear;
+    /*display: none;*/
+}
+.zhanwei{
+    text-decoration: none;
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    position: absolute;
+    top:0;
+    left:0;
+    background: transparent;
 
 }
 #header{
     width:100%;
     height: 40px;
-
 }
 .headerbar{
     width: 200px;
     margin:0 auto;
     border:1px solid #666;
 }
+.needle{
+    width:70px;
+    height:115px;
+    position: absolute;
+    left:140px;
+    z-index:999;
+    transform-origin: 0px 0px;
+    transition: 0.5s;
+}
+.needlerotate{
+    transform:rotate(-20deg);
+}
 #content{
     position:relative;
     width: 100%;
     height: 350px;
-
+    overflow: hidden;
 }
 .animat{
     animation: revole 12s infinite linear;
+    animation-fill-mode:forwards;
     position: absolute;
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
+}
+.animat-cnt{
+
 }
 .edge{
     width:228px;
@@ -52,7 +96,7 @@ li{
     transition:0.5s;
 }
 .wordsong{
-    width: 230px;
+    width: 300px;
     height: 255px;
 
     position: absolute;
@@ -60,9 +104,28 @@ li{
     left:50%;
     transform:translate(-50%,-50%);
     display: none;
-    overflow: auto;
-    font-size:14px;
+    overflow: hidden;
+    font-size:12px;
     text-align: center;
+}
+.wordsong p{
+    font-size:12px;
+}
+.lyric-ct{
+    position:absolute;
+    width: 300px;
+    /*top:50%;*/
+    /*left:50%;*/
+    /*transform:translate(-50%,-50%);*/
+}
+.wordsong .light-lyric{
+    color: #ffffff;
+    font-size:16px;
+}
+.wordsong .beforelyric{
+    font-size:14px;
+    color: #ffffff;
+    opacity:1;
 }
 #contro{
     /*position: relative;*/
@@ -97,7 +160,7 @@ li{
 }
 .musiceinfo{
     position:absolute;
-
+    width: 220px;
     line-height:20px;
     left:40px;
     top: 0;
@@ -163,18 +226,26 @@ li{
     position:absolute;
     top:34px;
     left:-59px;
-    border:1px solid black;
+    border:1px solid transparent;
     overflow: auto;
     display:none;
     background-color:#fff;
+}
+.stylecnt::-webkit-scrollbar{
+    background-color: #F5F5F5;
+    width:6px;
+}
+.stylecnt::-webkit-scrollbar-thumb{
+    background-color: black;
+}
+.stylecnt li{
+    margin-bottom:5px;
+}
+.stylecnt li:hover{
+    background-color: palevioletred;
+    cursor: pointer;
+}
 
-}
-.hide{
-    display:none;
-}
-.show{
-    display:block;
-}
 .icon-volume-up{
     position: relative;
 }
@@ -291,9 +362,48 @@ li{
 .skin img{
     width: 15px;
 }
+.skinstyle{
+    position: absolute;
+    top:-200px;
+    left: 20px;
+    width: 90px;
+    height:200px;
+    font-size:14px;
+    text-align: center;
+    display: none;
+    background-color: #eeeeee;
+}
+.skinstyle li{
+    padding:10px;
+    cursor: pointer;
+}
+.skinblack:hover{
+    background: black;
+    color: #ffffff;
+}
+.skinred:hover{
+    background: red;
+}
+.skingreen:hover{
+    background: green;
+}
+.skinyellow:hover{
+    background: yellow;
+}
+
 @keyframes revole{
     0%{transform: rotate(0deg);
         }
     100%{transform: rotate(360deg);
         }
 }
+.pointer{
+    cursor: pointer;
+}
+.hide{
+    display:none;
+}
+.show{
+    display:block;
+}
+
