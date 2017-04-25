@@ -1,6 +1,6 @@
-# 啊啊啊啊MyMusiceFM
+# MyMusiceFM
 ## 一个自制的网页FM播放器 使用百度音乐API
-##在线地址 ：http://fyyyi.applinzi.com/Mymusice/
+
 ### 功能
 * 下一首(随机获取当前风格的歌曲)
 * 上一首(一次仅保存一首)
@@ -15,3 +15,10 @@
 ### 技术
 * 使用了Jquery
 * 使用构造函数生成一个播放器对象
+
+```
+#克隆到本地
+git clone git@github.com:raszxcv/MyMusiceFM.git
+
+#打开index.html
+```

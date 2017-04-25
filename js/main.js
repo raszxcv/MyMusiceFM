@@ -52,7 +52,6 @@ Fm.prototype= {
         me.zhanwei.on('click',function(){
             if(me.ismove){
                 me.ismove=false;
-                console.log('触发了click事件')
                 me.main.removeClass('hide');
                 me.main.animate({
                     'opacity':'1'
@@ -76,17 +75,14 @@ Fm.prototype= {
         //音乐小图标拖拽
         me.zhanwei.on('mousedown',function(e){
             me.ismove=true;
-            console.log('触发了mousedown事件')
             var oldx=parseInt(me.fm.css('left'));
             var oldy=parseInt(me.fm.css('top'));
             var oldleft=e.pageX;
             var oldtop=e.pageY;
-            console.log(oldx+','+oldy);
             $(document).on('mousemove',function(e){
                     if(me.ismove){
                         var newx = e.pageX-oldleft+oldx;
                         var newy = e.pageY-oldtop+oldy;
-                        console.log('触发了mousemove事件')
                         me.fm.css({
                             'left':newx,
                             'top':newy
@@ -107,7 +103,6 @@ Fm.prototype= {
             var oldy=parseInt(me.fm.css('top'));
             var oldleft=e.pageX;
             var oldtop=e.pageY;
-            console.log(oldx+','+oldy);
             $(document).on('mousemove',function(e){
                 var newx = e.pageX-oldleft+oldx;
                 var newy = e.pageY-oldtop+oldy;
@@ -175,7 +170,6 @@ Fm.prototype= {
         me.stylecnt.on('click', function (event) {
             event.stopPropagation();
             var styleMhz = event.target;
-            console.log($(styleMhz).attr('id'));
             me.getMusice($(styleMhz).attr('id'));
 
         });
@@ -312,12 +306,10 @@ Fm.prototype= {
             }
         });
         function newli(data) {
-            console.log(data[0]);
             for (var key in data) {
                 var newLi = '<li id="' + data[key].channel_id +  '">' + data[key].name + "Mhz" + '</li>';
                 me.stylecnt.append(newLi);
             }
-            console.log(newLi)
         }
     },
     playbackProgress: function () {
@@ -351,71 +343,11 @@ Fm.prototype= {
             })
             .done(function (lyric) {
                 var Lyric = JSON.parse(lyric).lyric;
-                console.log(Lyric)
                 $('.lyric-ct>p').remove();
                 me.lyricTimeArr = [];
                 me.lyricFormat(Lyric);
 
             });
-        // function parseLyric(lyric) {
-        //     var lines = lyric.split('\n'),
-        //         pattern = /\[\d{2}:\d{2}.\d{2}\]/g,
-        //         result = [];
-        //     for (var i = 0; i < lines.length; i++) {
-        //         if (!pattern.test(lines[i])) {
-        //             continue
-        //         }
-        //         result.push([lines[i].match(pattern), lines[i].replace(/\[\d{2}:\d{2}.\d{2}\](?=\w)/, '')]);
-        //     }
-        //     return result;
-        // }
-        //
-        // function loadLyric(lrc) {
-        //     for (var i = 0; i < lrc.length; i++) {
-        //         if (!/\[\d{2}:\d{2}.\d{2}\]/g.test(lrc[i][1])) {
-        //
-        //             var time = parseInt(lrc[i][0].join('')[1]) + parseInt(lrc[i][0].join('')[2]) * 60 + parseInt(lrc[i][0].join('')[4] + lrc[i][0].join('')[5]) + parseInt(lrc[i][0].join('')[7] + lrc[i][0].join('')[8]) / 100
-        //             me.wordsong.append('<li' + ' name="' + time + '">' + lrc[i][1] + '</li>');
-        //         }
-        //     }
-        // }
-
-        // function setSyncLyric() {
-        //     var el = $('.wordsong li'),
-        //         ul = $('.wordsong ul');
-        //         asd();
-        //     me.audio.on('timeupdate', function () {
-        //         el.each(function (i, v) {
-        //
-        //             if (parseFloat(me.audio[0].currentTime.toFixed(2)) > parseFloat($(this).attr('name'))) {
-        //                 el.eq(i - 1).removeClass('beforelyric');
-        //                 el.eq(i).addClass('beforelyric');
-        //             }
-        //
-        //
-        //         });
-        //
-        //
-        //     });
-        //     function asd(){
-        //         var el = $('.wordsong li'),
-        //             ul = $('.wordsong ul');
-        //         setInterval(function(){
-        //
-        //             el.each(function (i, v) {
-        //                 if (Math.round(me.audio[0].currentTime) === Math.round(el.eq(i).attr('name'))) {
-        //
-        //                     console.log(1)
-        //                     ul.animate({top: Top})
-        //                 }
-        //             });
-        //
-        //         }, 1000)
-        //     }
-        //
-        //
-        //
-        // }
     },
     lyricFormat:function(str){
         var html = '';

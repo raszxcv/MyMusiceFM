@@ -46,7 +46,6 @@ Vol.prototype={
                 setTimeout(function(){
                     me.volslip.removeClass('show');
                     me.volslip.addClass('hide');
-                    console.log(1)
                     me.clock=false;
                 },5000)
             }

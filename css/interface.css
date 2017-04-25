@@ -310,6 +310,12 @@ li{
     height: 50px;
     color: #000;
 }
+.play{
+    display: none;
+}
+.pause{
+    display: block;
+}
 .play,.pause{
     margin:0 auto;
 }
